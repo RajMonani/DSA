@@ -1,0 +1,124 @@
+#include <iostream>
+using namespace std;
+struct Node
+{
+    int student;
+    Node* next;
+};
+int main()
+{
+    Node* head = NULL;
+    int choice;
+    int student;
+    while (true)
+    {
+        cout << "\n1. Add Student";
+        cout << "\n2. Remove Student";
+        cout << "\n3. Display Circle";
+        cout << "\n4. Exit";
+        cout << "\nEnter your choice: ";
+        cin >> choice;
+        if (choice == 1)
+        {
+            cout << "Enter student number: ";
+            cin >> student;
+            Node* newNode = new Node;
+            newNode->student = student;
+            if (head == NULL)
+            {
+                head = newNode;
+                newNode->next = head;
+            }
+            else
+            {
+                Node* temp = head;
+                while (temp->next != head)
+                {
+                    temp = temp->next;
+                }
+                temp->next = newNode;
+                newNode->next = head;
+            }
+            cout << "Student added to circle.\n";
+        }
+        else if (choice == 2)
+        {
+            cout << "Enter student number to remove: ";
+            cin >> student;
+
+            if (head == NULL)
+            {
+                cout << "Circle is empty.\n";
+            }
+            else
+            {
+                Node* temp = head;
+                Node* previous = NULL;
+                do
+                {
+                    if (temp->student == student)
+                    {
+                        break;
+                    }
+                    previous = temp;
+                    temp = temp->next;
+                } while (temp != head);
+
+                if (temp->student != student)
+                {
+                    cout << "Student not found.\n";
+                }
+                else
+                {
+                    if (temp == head && temp->next == head)
+                    {
+                        head = NULL;
+                    }
+                    else if (temp == head)
+                    {
+                        Node* last = head;
+                        while (last->next != head)
+                        {
+                            last = last->next;
+                        }
+                        head = head->next;
+                        last->next = head;
+                    }
+                    else
+                    {
+                        previous->next = temp->next;
+                    }
+                    delete temp;
+                    cout << "Student removed.\n";
+                }
+            }
+        }
+        else if (choice == 3)
+        {
+            if (head == NULL)
+            {
+                cout << "Circle is empty.\n";
+            }
+            else
+            {
+                Node* temp = head;
+                cout << "\nStudents in circle: ";
+                do
+                {
+                    cout << temp->student << " ";
+                    temp = temp->next;
+                } while (temp != head);
+                cout << endl;
+            }
+        }
+        else if (choice == 4)
+        {
+            break;
+        }
+        else
+        {
+            cout << "Invalid choice.\n";
+        }
+    }
+    return 0;
+}

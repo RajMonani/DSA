@@ -1,0 +1,120 @@
+#include <iostream>
+using namespace std;
+
+struct Node
+{
+    int token;
+    Node* next;
+};
+int main()
+{
+    Node* head = NULL;
+    int choice, token;
+
+    while (true)
+    {
+        cout << "\n1. Add Patient";
+        cout << "\n2. Remove Patient";
+        cout << "\n3. Display Queue";
+        cout << "\n4. Reverse Print";
+        cout << "\n5. Exit";
+        cout << "\nEnter your choice: ";
+        cin >> choice;
+        if (choice == 1)
+        {
+            cout << "Enter patient token: ";
+            cin >> token;
+            Node* newNode = new Node;
+            newNode->token = token;
+            newNode->next = NULL;
+            if (head == NULL)
+            {
+                head = newNode;
+            }
+            else
+            {
+                Node* temp = head;
+                while (temp->next != NULL)
+                {
+                    temp = temp->next;
+                }
+                temp->next = newNode;
+            }
+            cout << "Patient added.\n";
+        }
+        else if (choice == 2)
+        {
+            cout << "Enter token to remove: ";
+            cin >> token;
+            Node* temp = head;
+            Node* previous = NULL;
+            while (temp != NULL && temp->token != token)
+            {
+                previous = temp;
+                temp = temp->next;
+            }
+            if (temp == NULL)
+            {
+                cout << "Patient token not found.\n";
+            }
+            else
+            {
+                if (previous == NULL)
+                {
+                    head = temp->next;
+                }
+                else
+                {
+                    previous->next = temp->next;
+                }
+                delete temp;
+                cout << "Patient removed.\n";
+            }
+        }
+        else if (choice == 3)
+        {
+            if (head == NULL)
+            {
+                cout << "Queue is empty.\n";
+            }
+            else
+            {
+                Node* temp = head;
+                cout << "\nQueue from first to last: ";
+                while (temp != NULL)
+                {
+                    cout << temp->token << " ";
+                    temp = temp->next;
+                }
+                cout << endl;
+            }
+        }
+        else if (choice == 4)
+        {
+            cout << "\nQueue from last to first: ";
+            Node* temp = head;
+            if (temp == NULL)
+            {
+                cout << "Queue is empty.";
+            }
+            else
+            {
+                while (temp->next != NULL)
+                {
+                    temp = temp->next;
+                }
+                cout << temp->token << " ";
+            }
+            cout << endl;
+        }
+        else if (choice == 5)
+        {
+            break;
+        }
+        else
+        {
+            cout << "Invalid choice.\n";
+        }
+    }
+    return 0;
+}

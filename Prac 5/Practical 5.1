@@ -1,0 +1,145 @@
+#include <iostream>
+using namespace std;
+
+struct Node
+{
+    string song;
+    Node* previous;
+    Node* next;
+};
+int main()
+{
+    Node* head = NULL;
+    int choice;
+    string song, afterSong;
+    while (true)
+    {
+        cout << "\n1. Add Song at Beginning";
+        cout << "\n2. Add Song at End";
+        cout << "\n3. Add Song After a Song";
+        cout << "\n4. Remove Song";
+        cout << "\n5. Display Playlist";
+        cout << "\n6. Exit";
+        cout << "\nEnter your choice: ";
+        cin >> choice;
+        if (choice == 1)
+        {
+            cout << "Enter song name: ";
+            cin >> song;
+            Node* newNode = new Node;
+            newNode->song = song;
+            newNode->previous = NULL;
+            newNode->next = head;
+            if (head != NULL)
+            {
+                head->previous = newNode;
+            }
+            head = newNode;
+            cout << "Song added at beginning.\n";
+        }
+        else if (choice == 2)
+        {
+            cout << "Enter song name: ";
+            cin >> song;
+            Node* newNode = new Node;
+            newNode->song = song;
+            newNode->next = NULL;
+            if (head == NULL)
+            {
+                newNode->previous = NULL;
+                head = newNode;
+            }
+            else
+            {
+                Node* temp = head;
+                while (temp->next != NULL)
+                {
+                    temp = temp->next;
+                }
+                newNode->previous = temp;
+                temp->next = newNode;
+            }
+            cout << "Song added at end.\n";
+        }
+        else if (choice == 3)
+        {
+            cout << "Enter new song name: ";
+            cin >> song;
+            cout << "Add this song after: ";
+            cin >> afterSong;
+            Node* temp = head;
+            while (temp != NULL && temp->song != afterSong)
+            {
+                temp = temp->next;
+            }
+            if (temp == NULL)
+            {
+                cout << "Song not found.\n";
+            }
+            else
+            {
+                Node* newNode = new Node;
+                newNode->song = song;
+                newNode->previous = temp;
+                newNode->next = temp->next;
+                if (temp->next != NULL)
+                {
+                    temp->next->previous = newNode;
+                }
+                temp->next = newNode;
+                cout << "Song added.\n";
+            }
+        }
+        else if (choice == 4)
+        {
+            cout << "Enter song to remove: ";
+            cin >> song;
+            Node* temp = head;
+            while (temp != NULL && temp->song != song)
+            {
+                temp = temp->next;
+            }
+            if (temp == NULL)
+            {
+                cout << "Song not found.\n";
+            }
+            else
+            {
+                if (temp->previous != NULL)
+                {
+                    temp->previous->next = temp->next;
+                }
+                else
+                {
+                    head = temp->next;
+                }
+                if (temp->next != NULL)
+                {
+                    temp->next->previous = temp->previous;
+                }
+                delete temp;
+                cout << "Song removed.\n";
+            }
+        }
+        else if (choice == 5)
+        {
+            Node* temp = head;
+            cout << "\nPlaylist: ";
+            while (temp != NULL)
+            {
+                cout << temp->song << " ";
+                temp = temp->next;
+            }
+            cout << endl;
+        }
+        else if (choice == 6)
+        {
+            break;
+        }
+        else
+        {
+            cout << "Invalid choice.\n";
+        }
+    }
+    return 0;
+}
